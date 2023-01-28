@@ -316,3 +316,8 @@ void loopVolumeSource(void)
     }
   }
 }
+
+void debugMessage(char* msg)
+{
+  displayExhibitValue(msg);
+}

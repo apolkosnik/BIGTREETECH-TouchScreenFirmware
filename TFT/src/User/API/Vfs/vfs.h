@@ -77,6 +77,7 @@ bool getPrintTitle(char * buf, uint8_t len);  // get print title according to pr
 // called in menu.c
 bool volumeExists(uint8_t src);
 void loopVolumeSource(void);
+void debugMessage(char* msg);
 
 #ifdef __cplusplus
 }
