@@ -39,7 +39,7 @@ void Mode_Switch(void)
           char msg[64];
           while (OS_GetTimeMs() - startUpTime < BTT_BOOTSCREEN_TIME)  // display logo BTT_BOOTSCREEN_TIME ms
           {
-            // OS_GetTimeMs is always 0
+            // FIXME OS_GetTimeMs is always 0
             sprintf(msg, "%d - %d<%d", i, OS_GetTimeMs() - startUpTime, BTT_BOOTSCREEN_TIME);
             debugMessage(msg);
 

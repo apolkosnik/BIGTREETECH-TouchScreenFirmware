@@ -20,6 +20,7 @@
 // USB Disk support
 #ifndef USB_FLASH_DRIVE_SUPPORT
   #define USB_FLASH_DRIVE_SUPPORT
+  // Without this doesent build, the USB works?
   #define USE_USB_FS
   #define USE_USB_OTG_FS
 #endif
