@@ -317,7 +317,9 @@ void loopVolumeSource(void)
   }
 }
 
-void debugMessage(char* msg)
+void debugMessage(char* msg, uint8_t line)
 {
-  displayExhibitValue(msg);
+  // displayExhibitValue(msg);
+
+  GUI_DispString(0, line * 20, (uint8_t *)msg);
 }

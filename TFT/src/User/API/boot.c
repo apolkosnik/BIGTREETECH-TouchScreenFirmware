@@ -12,9 +12,9 @@ const GUI_RECT labelFailedRect = {0, (BYTE_HEIGHT*4) + PADDING*4 + ICON_HEIGHT, 
 
 const uint32_t fontAddrList[] = {
   BYTE_ASCII_ADDR,
-  WORD_UNICODE_ADDR,
-  LARGE_FONT_ADDR,
-  _8X16_FONT_ADDR
+  // WORD_UNICODE_ADDR,
+  // LARGE_FONT_ADDR,
+  // _8X16_FONT_ADDR
 };
 
 const char * fontPathList[] = {
@@ -408,43 +408,43 @@ checkupdate:
       }
     }
 
-    // check for icon/bmp update
-    GET_FULL_PATH(curfilePath, rootDir, BMP_UPDATE_DIR);
-    if (f_dir_exists(BMP_UPDATE_DIR))
-    {
-      if (updateIcon(rootDir) && (saved_flash_sign[icon_sign] != ICON_CHECK_SIGN))
-      {
-        saved_flash_sign[icon_sign] = ICON_CHECK_SIGN;
-        flash_sign_updated = true;
-      }
-    }
+    // // check for icon/bmp update
+    // GET_FULL_PATH(curfilePath, rootDir, BMP_UPDATE_DIR);
+    // if (f_dir_exists(BMP_UPDATE_DIR))
+    // {
+    //   if (updateIcon(rootDir) && (saved_flash_sign[icon_sign] != ICON_CHECK_SIGN))
+    //   {
+    //     saved_flash_sign[icon_sign] = ICON_CHECK_SIGN;
+    //     flash_sign_updated = true;
+    //   }
+    // }
 
-    // check for config update
-    GET_FULL_PATH(curfilePath, rootDir, CONFIG_FILE_PATH);
-    if (getConfigFromFile(curfilePath) && (saved_flash_sign[config_sign] != CONFIG_CHECK_SIGN))
-    {
-      saved_flash_sign[config_sign] = CONFIG_CHECK_SIGN;
-      flash_sign_updated = true;
-    }
+    // // check for config update
+    // GET_FULL_PATH(curfilePath, rootDir, CONFIG_FILE_PATH);
+    // if (getConfigFromFile(curfilePath) && (saved_flash_sign[config_sign] != CONFIG_CHECK_SIGN))
+    // {
+    //   saved_flash_sign[config_sign] = CONFIG_CHECK_SIGN;
+    //   flash_sign_updated = true;
+    // }
 
-    // check for language update
-    if (getLangFromFile(rootDir) && (saved_flash_sign[lang_sign] != LANGUAGE_CHECK_SIGN))
-    {
-      saved_flash_sign[lang_sign] = LANGUAGE_CHECK_SIGN;
-      flash_sign_updated = true;
-    }
+    // // check for language update
+    // if (getLangFromFile(rootDir) && (saved_flash_sign[lang_sign] != LANGUAGE_CHECK_SIGN))
+    // {
+    //   saved_flash_sign[lang_sign] = LANGUAGE_CHECK_SIGN;
+    //   flash_sign_updated = true;
+    // }
 
-    // rename files
-    scanRenameUpdate(rootDir);
+    // // rename files
+    // scanRenameUpdate(rootDir);
 
-    // check for reset file
-    scanResetDir(rootDir);
+    // // check for reset file
+    // scanResetDir(rootDir);
 
-    // update flash sign
-    if (flash_sign_updated)
-    {
-      saveflashSign((uint8_t *)saved_flash_sign, sizeof(saved_flash_sign));
-    }
+    // // update flash sign
+    // if (flash_sign_updated)
+    // {
+    //   saveflashSign((uint8_t *)saved_flash_sign, sizeof(saved_flash_sign));
+    // }
   }
 
   #ifdef USB_FLASH_DRIVE_SUPPORT

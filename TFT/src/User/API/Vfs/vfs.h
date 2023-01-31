@@ -16,6 +16,17 @@ extern "C" {
 #define SD_ROOT_DIR  "SD:"
 #define USB_ROOT_DIR "U:"
 
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_TO_BINARY(byte)  \
+  (byte & 0x80 ? '1' : '0'), \
+  (byte & 0x40 ? '1' : '0'), \
+  (byte & 0x20 ? '1' : '0'), \
+  (byte & 0x10 ? '1' : '0'), \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0') 
+
 typedef enum
 {
   FS_TFT_SD,
@@ -77,7 +88,7 @@ bool getPrintTitle(char * buf, uint8_t len);  // get print title according to pr
 // called in menu.c
 bool volumeExists(uint8_t src);
 void loopVolumeSource(void);
-void debugMessage(char* msg);
+void debugMessage(char* msg, uint8_t line);
 
 #ifdef __cplusplus
 }

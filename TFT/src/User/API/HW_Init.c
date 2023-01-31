@@ -74,56 +74,95 @@ void HW_Init(void)
 
   LCD_RefreshDirection(infoSettings.rotated_ui);  // refresh display direction after reading settings
   scanUpdates();                                  // scan icon, fonts and config files
-  checkflashSign();                               // check font/icon/config signature in SPI flash for update
-  initMachineSettings();                          // load default machine settings
 
-  #if !defined(MKS_TFT)
-    // causes hang if we deinit spi1
-    SD_DeInit();
-  #endif
+  int startUpTime = OS_GetTimeMs();
+  int i = 0;
+  int l = 0;
+  char msg[64];
 
-  #ifdef PS_ON_PIN
-    PS_ON_Init();
-  #endif
+  GUI_Clear(infoSettings.bg_color);
+  while (OS_GetTimeMs() - startUpTime < BTT_BOOTSCREEN_TIME)  // display logo BTT_BOOTSCREEN_TIME ms
+  { 
+    sprintf(msg, "%d - %d", i, OS_GetTimeMs());
+    debugMessage(msg, l++);
 
-  #ifdef FIL_RUNOUT_PIN
-    FIL_Runout_Init();
-  #endif
+    sprintf(msg, "%d - %d", mcuClocks.rccClocks.SYSCLK_Frequency, mcuClocks.rccClocks.SYSCLK_Frequency);
+    debugMessage(msg, l++);
+    
+    sprintf(msg, "%d - %d", mcuClocks.rccClocks.PCLK1_Frequency, mcuClocks.rccClocks.PCLK2_Frequency);
+    debugMessage(msg, l++);
 
-  #ifdef BUZZER_PIN
-    Buzzer_Config();
-  #endif
+    int nvic = NVIC->ISER[TIMER6_IRQn >> 0x05U];
+    int rcu = RCU_REG_VAL(RCU_TIMER6);
+    sprintf(msg, "0x%08x, "BYTE_TO_BINARY_PATTERN, nvic, BYTE_TO_BINARY(rcu));
+    debugMessage(msg, l++);
 
-  #ifdef KNOB_LED_COLOR_PIN
-    knob_LED_Init();
-    Knob_LED_SetColor(knob_led_colors[infoSettings.knob_led_color], infoSettings.neopixel_pixels);  // set last saved color after initialization
-  #endif
+    int car = TIMER_CAR(TIMER6);
+    int psc = TIMER_PSC(TIMER6);
+    int intf = TIMER_INTF(TIMER6);
+    int dmainten = TIMER_DMAINTEN(TIMER6);
+    int ctl0 = TIMER_CTL0(TIMER6);
+    sprintf(msg, "%d, %d, %d, %d, %d", car, psc, intf, dmainten, ctl0);
+    debugMessage(msg, l++);
 
-  #if LCD_ENCODER_SUPPORT
-    LCD_Enc_Init();
-  #endif
+    for(int ii; ii < 100000; ii++) {
+      sprintf(msg, "%d", ii);
+    }
 
-  #if ENC_ACTIVE_SIGNAL
-    if (infoSettings.marlin_type == LCD12864)
-      LCD_Enc_InitActiveSignal();
-  #endif
-
-  if (readIsTSCExist() == false)  // read settings parameter
-  {
-    LCD_RefreshDirection(infoSettings.rotated_ui);
-    TSC_Calibration();
-    storePara();
-  }
-  else if (readIsNotStored())
-  {
-    storePara();
+    l = 0;
+    i++;
   }
 
-  LCD_SET_BRIGHTNESS(lcd_brightness[infoSettings.lcd_brightness]);
+  // checkflashSign();                               // check font/icon/config signature in SPI flash for update
+  // initMachineSettings();                          // load default machine settings
 
-  LED_SetColor(&infoSettings.led_color, false);  // set (neopixel) LED light current color to configured color
+  // #if !defined(MKS_TFT)
+  //   // causes hang if we deinit spi1
+  //   SD_DeInit();
+  // #endif
 
-  Mode_Switch();
+  // #ifdef PS_ON_PIN
+  //   PS_ON_Init();
+  // #endif
+
+  // #ifdef FIL_RUNOUT_PIN
+  //   FIL_Runout_Init();
+  // #endif
+
+  // #ifdef BUZZER_PIN
+  //   Buzzer_Config();
+  // #endif
+
+  // #ifdef KNOB_LED_COLOR_PIN
+  //   knob_LED_Init();
+  //   Knob_LED_SetColor(knob_led_colors[infoSettings.knob_led_color], infoSettings.neopixel_pixels);  // set last saved color after initialization
+  // #endif
+
+  // #if LCD_ENCODER_SUPPORT
+  //   LCD_Enc_Init();
+  // #endif
+
+  // #if ENC_ACTIVE_SIGNAL
+  //   if (infoSettings.marlin_type == LCD12864)
+  //     LCD_Enc_InitActiveSignal();
+  // #endif
+
+  // if (readIsTSCExist() == false)  // read settings parameter
+  // {
+  //   LCD_RefreshDirection(infoSettings.rotated_ui);
+  //   TSC_Calibration();
+  //   storePara();
+  // }
+  // else if (readIsNotStored())
+  // {
+  //   storePara();
+  // }
+
+  // LCD_SET_BRIGHTNESS(lcd_brightness[infoSettings.lcd_brightness]);
+
+  // LED_SetColor(&infoSettings.led_color, false);  // set (neopixel) LED light current color to configured color
+
+  // Mode_Switch();
 }
 
 void HW_InitMode(uint8_t mode)
