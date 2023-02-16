@@ -92,6 +92,7 @@ void HW_Init(void)
     sprintf(msg, "%d - %d", mcuClocks.rccClocks.PCLK1_Frequency, mcuClocks.rccClocks.PCLK2_Frequency);
     debugMessage(msg, l++);
 
+#if defined GD32F2XX || defined GD32F3XX
     int nvic = NVIC->ISER[TIMER6_IRQn >> 0x05U];
     int rcu = RCU_REG_VAL(RCU_TIMER6);
     sprintf(msg, "0x%08x, "BYTE_TO_BINARY_PATTERN, nvic, BYTE_TO_BINARY(rcu));
@@ -104,6 +105,7 @@ void HW_Init(void)
     int ctl0 = TIMER_CTL0(TIMER6);
     sprintf(msg, "%d, %d, %d, %d, %d", car, psc, intf, dmainten, ctl0);
     debugMessage(msg, l++);
+#endif
 
     for(int ii; ii < 100000; ii++) {
       sprintf(msg, "%d", ii);
