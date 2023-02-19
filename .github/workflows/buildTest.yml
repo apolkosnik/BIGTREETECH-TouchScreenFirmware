@@ -33,5 +33,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -U platformio
 
-      - name: Build GD MKS TFT28 V4.0 
-        run: platformio run --environment MKS_GD_TFT28_V4_0
+      - name: Build GD V2 MKS TFT28 V4.0 
+        run: platformio run --environment MKS_GD_V2_TFT28_V4_0
