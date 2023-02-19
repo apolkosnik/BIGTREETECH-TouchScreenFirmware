@@ -1281,7 +1281,7 @@
 #define BUZZER_STOP_LEVEL LOW  // Default: LOW
 
 // Show bootscreen when starting up
-#define SHOW_BTT_BOOTSCREEN  // Default: uncommented (enabled)
+//#define SHOW_BTT_BOOTSCREEN  // Default: uncommented (enabled)
 
 // Bootscreen logo time in ms
 #define BTT_BOOTSCREEN_TIME 3000  // Default: 3000
