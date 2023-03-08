@@ -30,7 +30,7 @@ jobs:
           pip install -U platformio
 
       - name: Build GD MKS TFT28 V4.0 
-        run: platformio run --environment MKS_GD_TFT28_V4_0
+        run: platformio run --environment MKS_GD_V2_TFT28_V4_0
 
       - name: Remove Old Binaries
         run: find "Copy to SD Card root directory to update/" -name '*.bin' -print -delete
@@ -57,5 +57,5 @@ jobs:
         with:
           email: 125509558+MirakelPrints@users.noreply.github.com
           name: MirakelPrints
-          message: 📦️ Update MKS_GD_TFT28_V4_0 binary and config
+          message: 📦️ Update MKS_GD_V2_TFT28_V4_0 binary and config
           token: ${{ secrets.TOKEN }}
