@@ -59,3 +59,18 @@ jobs:
         with:
           name: artifacts-${{ env.platform-env }}
           path: mkstft28evo/
+
+      - name: Zip tagged release
+        uses: thedoctor0/zip-release@0.7.1
+        if: startsWith(github.ref, 'refs/tags/') 
+        with:
+          type: zip
+          filename: ${{ env.platform-env }}-${{ github.ref_name }}.zip
+          directory: mkstft28evo/
+
+      - name: Upload tagged release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          generate_release_notes: true
+          files: mkstft28evo/${{ env.platform-env }}-${{ github.ref_name }}.zip
