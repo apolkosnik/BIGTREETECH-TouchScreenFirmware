@@ -1,0 +1,61 @@
+name: Build MKS_GD_V2_TFT28_V4_0
+
+on:
+  pull_request:
+    paths-ignore:
+    - Bootloader/**
+    - Copy to SD Card root directory to update/**
+    - images/**
+    - readme/**
+    - '**/*.md'
+  push:
+    paths-ignore:
+    - Bootloader/**
+    - Copy to SD Card root directory to update/**
+    - images/**
+    - readme/**
+    - '**/*.md'
+
+env:
+  platform-env: MKS_GD_V2_TFT28_V4_0
+
+jobs:
+  main:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Cache PlatformIO
+        uses: actions/cache@v3
+        with:
+          path: ~/.platformio
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install PlatformIO
+        run: |
+          pip install -U platformio
+          pio upgrade --dev
+          pio pkg update --global
+
+      - name: Build ${{ env.platform-env }}
+        run: platformio run --environment ${{ env.platform-env }}
+
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts-${{ env.platform-env }}
+          path: mkstft28evo/
