@@ -67,6 +67,9 @@ jobs:
           type: zip
           filename: ${{ env.platform-env }}-${{ github.ref_name }}.zip
           directory: mkstft28evo/
+          exclusions: |
+            mks_font/.gitkeep
+            mks_pic/.gitkeep
 
       - name: Upload tagged release
         uses: softprops/action-gh-release@v1
