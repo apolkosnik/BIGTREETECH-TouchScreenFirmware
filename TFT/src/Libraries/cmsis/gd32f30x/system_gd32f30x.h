@@ -54,7 +54,9 @@ typedef struct
 
 /* function declarations */
 /* initialize the system and update the SystemCoreClock variable */
-extern void SystemClockInit (void);
+
+/* initialize the system and update the SystemCoreClock variable */
+extern void SystemInit (void);
 /* update the SystemCoreClock with current core clock retrieved from cpu registers */
 //extern void SystemCoreClockUpdate (void);
 
